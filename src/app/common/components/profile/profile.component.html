@@ -1,5 +1,44 @@
 <div class="profileContainer">
     <div class="mainContainer">
+        <div class="mainCard" [formGroup]="profileForm">
+            <div class="cardHeader">Profile</div>
 
+            <div class="profilePhoto mt-3">
+                <div class="profileImg">
+                    <img class="img-thumbnail rounded-circle avatar-xl" alt="200x200"
+                        src="../../../../assets/avatar.svg" *ngIf="!imageUrl">
+                    <img class="img-thumbnail rounded-circle avatar-xl" alt="200x200" *ngIf="imageUrl" [src]="imageUrl">
+                </div>
+                <input type="file" class="fileuploader" (change)="onFileSelected($event)">
+                <button class="fileuploaderBtn"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+            </div>
+
+            <div class="cardRow">
+                <div class="inputDiv">
+                    <label class="inputLabel" for="">First Name</label>
+                    <input type="text" class="form-control" formControlName="firstName" name="firstName">
+                </div>
+                <div class="inputDiv">
+                    <label class="inputLabel" for="">Last Name</label>
+                    <input type="text" class="form-control" formControlName="lastName" name="lastName">
+                </div>
+            </div>
+            <div class="cardRow">
+                <div class="inputDiv">
+                    <label class="inputLabel" for="">Mobile No.</label>
+                    <input type="text" class="form-control" formControlName="mobileNo" name="mobileNo">
+                </div>
+                <div class="inputDiv">
+                    <label class="inputLabel" for="">Email</label>
+                    <input type="text" class="form-control" formControlName="email" name="email">
+                </div>
+            </div>
+            <div class="cardRow">
+                <div class="inputDiv">
+                    <label class="inputLabel" for="">Password</label>
+                    <input type="password" class="form-control" formControlName="password" name="password">
+                </div>
+            </div>
+        </div>
     </div>
 </div>

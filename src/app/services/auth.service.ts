@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginRequestData, LoginResponse, signUpRequestData } from '../common/interface/user';
 import { Observable } from 'rxjs';
@@ -19,6 +19,10 @@ export class AuthService {
 
   signUp(data: signUpRequestData): Observable<any> {
     return this.http.post<any>(this.baseUrl + 'signup', data);
+  }
+
+  getUserById(id: any): Observable<LoginResponse> {
+    return this.http.get<LoginResponse>(this.baseUrl + `user/getUserById/${id}`);
   }
 
 }

@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { AuthService } from "./auth.service";
 import { Store } from "@ngrx/store";
-import { RootReducerState, getError, getIsAuthenticated, getUser } from "../common/store/reducer";
+import { RootReducerState, getError, getIsAuthenticated, getUser, getUserById, getisLoaded, getisLoading, userError } from "../common/store/reducer";
 import { Observable, combineLatest, take } from "rxjs";
-import { LoginRequestData, User, LoginResponse, signUpRequestData } from "../common/interface/user";
-import { LoginAction, LoginSuccessAction, LoginErrorAction, SignupAction, SignupSuccessAction, SignupErrorAction, SignupExistsAction } from "../common/store/action/auth.action";
+import { LoginRequestData, User, LoginResponse, signUpRequestData, GetUser } from "../common/interface/user";
+import { LoginAction, LoginSuccessAction, LoginErrorAction, SignupAction, SignupSuccessAction, SignupErrorAction, SignupExistsAction, UserGetByIDAction, UserSuccessAction, UserErrorAction } from "../common/store/action/auth.action";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 
@@ -66,5 +66,30 @@ export class Auth {
         })
 
         return [isAuthenticated$, hasError$, user$]
+    }
+
+    getUserById(id?: string, force = false): [Observable<boolean>, Observable<boolean>, Observable<GetUser>, Observable<boolean>] {
+        const isLoading$ = this.store.select(getisLoading);
+        const isLoaded$ = this.store.select(getisLoaded);
+        const user$ = this.store.select(getUserById);
+        const userError$ = this.store.select(userError);
+
+        combineLatest([isLoaded$, isLoading$]).pipe(take(1)).subscribe((data) => {
+            if ((!data[0] && !data[1]) && force) {
+                this.store.dispatch(new UserGetByIDAction());
+                this.authService.getUserById(id).subscribe((res) => {
+                    if (res && res.Status == 1) {
+                        this.store.dispatch(new UserSuccessAction(res.data))
+                    } else {
+                        this.store.dispatch(new UserErrorAction());
+                        this.toastrService.error(res.message);
+                    }
+                }, (error) => {
+                    this.store.dispatch(new UserErrorAction());
+                })
+            }
+        })
+
+        return [isLoading$, isLoaded$, user$, userError$]
     }
 }

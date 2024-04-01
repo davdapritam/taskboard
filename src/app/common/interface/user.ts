@@ -22,3 +22,12 @@ export interface signUpRequestData {
     password: string,
     profilePic: string
 }
+
+export interface GetUser {
+    firstName: string,
+    lastName: string,
+    mobileNo: string,
+    email: string,
+    password: string,
+    profilePic: string
+}

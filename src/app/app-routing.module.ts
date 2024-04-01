@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './common/components/login/login.component';
 import { SignupComponent } from './common/components/signup/signup.component';
-import { MasterComponent } from './components/master/master.component';
+import { ProfileComponent } from './common/components/profile/profile.component';
+
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
       m => m.MasterModule
     )
   },
+  {
+    path: 'profile',
+    component: ProfileComponent
+  }
 ];
 
 @NgModule({

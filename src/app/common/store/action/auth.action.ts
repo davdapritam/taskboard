@@ -10,6 +10,12 @@ export enum AuthActionType {
     SIGNUP_SUCCESS = '[Auth] Signup Success',
     SIGNUP_ERROR = '[Auth] Signup Error',
     SIGNUP_EXISTS = '[Auth] USER EXISTS',
+
+    USER_GET_BY_ID = '[GET] Get User',
+    USER_SUCCESS = '[GET] Get User Successfully',
+    USER_ERROR = '[GET] Error Getting User',
+    USER_UPDATE = '[GET] User Update',
+
 }
 
 export class LoginAction {
@@ -47,13 +53,32 @@ export class SignupSuccessAction {
     constructor(public payload?: { data: User }) { }
 }
 
-
 export class SignupExistsAction {
     readonly type = AuthActionType.SIGNUP_EXISTS
 }
 
 export class SignupErrorAction {
     readonly type = AuthActionType.SIGNUP_ERROR
+
+    constructor(public payload?: any) { }
+}
+
+export class UserGetByIDAction {
+    readonly type = AuthActionType.USER_GET_BY_ID
+}
+
+export class UserSuccessAction {
+    readonly type = AuthActionType.USER_SUCCESS
+
+    constructor(public payload?: any) { }
+}
+
+export class UserErrorAction {
+    readonly type = AuthActionType.USER_ERROR
+}
+
+export class UserUpdateAction {
+    readonly type = AuthActionType.USER_UPDATE
 
     constructor(public payload?: any) { }
 }
