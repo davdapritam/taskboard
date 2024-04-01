@@ -26,8 +26,12 @@ export class Auth {
                 this.store.dispatch(new LoginAction());
                 this.authService.login(userData).subscribe((res: LoginResponse) => {
                     if (res && res.Status == 1) {
+                        localStorage.setItem('upmetricsCred', JSON.stringify(res.data))
                         this.store.dispatch(new LoginSuccessAction({ data: res.data }))
                         this.router.navigate(['master'])
+                    } else {
+                        this.toastrService.error(res.message);
+                        this.store.dispatch(new LoginErrorAction())
                     }
                 }, (error) => {
                     this.store.dispatch(new LoginErrorAction());
@@ -48,6 +52,7 @@ export class Auth {
                 this.store.dispatch(new SignupAction());
                 this.authService.signUp(userData).subscribe((res: LoginResponse) => {
                     if (res && res.Status == 1) {
+                        localStorage.setItem('upmetricsCred', JSON.stringify(res.data))
                         this.store.dispatch(new SignupSuccessAction({ data: res.data }))
                         this.router.navigate(['master'])
                     } else if (res.Status == 0) {

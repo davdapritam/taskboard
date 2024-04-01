@@ -13,17 +13,24 @@
                             <label for="username" class="form-label">Email</label>
                             <input type="email" formControlName="email" name="email" class="form-control" id="email"
                                 placeholder="Enter email">
+                            <mat-error *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                                Please Enter Email.
+                            </mat-error>
                         </div>
 
                         <div class="mb-3">
-                            <div class="float-end">
+                            <!-- <div class="float-end">
                                 <a href="auth-pass-reset-basic.html" class="text-muted">Forgot password?</a>
-                            </div>
+                            </div> -->
                             <label class="form-label" for="password-input">Password</label>
                             <div class="position-relative auth-pass-inputgroup mb-3">
                                 <input type="password" class="form-control pe-5 password-input"
                                     placeholder="Enter password" id="password-input" formControlName="password"
                                     name="password">
+                                <mat-error
+                                    *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                                    Please Enter Email.
+                                </mat-error>
                                 <button
                                     class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted shadow-none password-addon"
                                     type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
@@ -42,9 +49,7 @@
                     </form>
                 </div>
             </div>
-            <!-- end card body -->
         </div>
-        <!-- end card -->
 
         <div class="mt-4 text-center">
             <p class="mb-0">Don't have an account ? <a href="javascript:void(0);"

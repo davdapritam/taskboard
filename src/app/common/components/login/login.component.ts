@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../interface/user';
 import { Router } from '@angular/router';
 import { Auth } from 'src/app/services/auth';
-import { takeWhile } from 'rxjs';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +11,7 @@ import { takeWhile } from 'rxjs';
   styleUrls: ['./login.component.scss']
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm!: FormGroup;
 
@@ -22,19 +22,29 @@ export class LoginComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private router: Router,
-    private auth: Auth) {
+    private auth: Auth,
+    private sharedService: SharedService) {
 
   }
 
   ngOnInit(): void {
+    this.checkUser();
     this.initLoginForm();
-    this.fetchInformation();
+    // this.fetchInformation();
+  }
+
+  checkUser() {
+    const user = localStorage.getItem('upmetricsCred')
+    if (user) {
+      this.sharedService.user = JSON.parse(user);
+      this.router.navigate(['master']);
+    }
   }
 
   initLoginForm() {
     this.loginForm = this.fb.group({
-      email: new FormControl('dpdavdapritam@gmail.com', [Validators.required, Validators.email]),
-      password: new FormControl('Admin@123', [Validators.required])
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required])
     })
   }
 
@@ -45,17 +55,21 @@ export class LoginComponent implements OnInit {
   login() {
     const data = this.loginForm.value
     if (this.loginForm.valid) {
-      this.auth.login(data);
+      this.auth.login(data, true);
     }
   }
 
-  fetchInformation() {
-    const isAuthenticated$ = this.auth.login()[0];
-    const hasErrors$ = this.auth.login()[1];
-    const user$ = this.auth.login()[2];
+  // fetchInformation() {
+  //   const isAuthenticated$ = this.auth.login()[0];
+  //   const hasErrors$ = this.auth.login()[1];
+  //   const user$ = this.auth.login()[2];
 
-    isAuthenticated$.pipe(takeWhile(() => this.isAlive)).subscribe((data) => this.isAuthenticated = data);
-    hasErrors$.pipe(takeWhile(() => this.isAlive)).subscribe((data) => this.hasErrors = data);
-    user$.pipe(takeWhile(() => this.isAlive)).subscribe((data) => { this.user = data });
+  //   isAuthenticated$.pipe(takeWhile(() => this.isAlive)).subscribe((data) => this.isAuthenticated = data);
+  //   hasErrors$.pipe(takeWhile(() => this.isAlive)).subscribe((data) => this.hasErrors = data);
+  //   user$.pipe(takeWhile(() => this.isAlive)).subscribe((data) => { this.user = data });
+  // }
+
+  ngOnDestroy(): void {
+    this.isAlive = false;
   }
 }
