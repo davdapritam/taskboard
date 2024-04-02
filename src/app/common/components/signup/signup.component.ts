@@ -26,12 +26,11 @@ export class SignupComponent implements OnInit {
 
   initSignupForm() {
     this.signupForm = this.fb.group({
-      firstName: new FormControl('Pritam', [Validators.required]),
-      lastName: new FormControl('Davda', [Validators.required]),
-      DOB: new FormControl('7/10/2002', [Validators.required]),
-      mobileNo: new FormControl('7359487834', [Validators.required]),
-      email: new FormControl('dpdavdapritam@gmail.com', [Validators.required, Validators.email]),
-      password: new FormControl('Admin@123', [Validators.required]),
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
+      mobileNo: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required]),
     })
   }
 

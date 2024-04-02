@@ -14,9 +14,9 @@
             </div>
 
             <div class="submitBtns">
-                <button class="submit" *ngIf="!data.boardId" mat-raised-button color="primary"
+                <button class="submit" *ngIf="!isEdit" mat-raised-button color="primary"
                     (click)="createTaskBoard()">Create</button>
-                <button class="submit" *ngIf="data.boardId" mat-raised-button color="primary"
+                <button class="submit" *ngIf="isEdit" mat-raised-button color="primary"
                     (click)="updateTaskBoard()">Update</button>
                 <button class="close" mat-raised-button color="warn" (click)="closeDialog()">Close</button>
             </div>

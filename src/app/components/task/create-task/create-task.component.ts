@@ -18,6 +18,7 @@ export class CreateTaskComponent implements OnInit, OnDestroy {
   error: boolean = false;
   isAlive: boolean = true;
 
+  isEdit: boolean = false;
   taskForm!: FormGroup;
 
   constructor(private task: Task, public dialogRef: MatDialogRef<CreateTaskComponent>,
@@ -30,6 +31,7 @@ export class CreateTaskComponent implements OnInit, OnDestroy {
     this.fetchUsers();
 
     if (this.data.taskId) {
+      this.isEdit = true;
       this.getTaskById();
     }
   }

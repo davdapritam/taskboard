@@ -64,7 +64,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.profileForm.get('mobileNo')?.setValue(this.user.mobileNo)
         this.profileForm.get('email')?.setValue(this.user.email)
         this.profileForm.get('password')?.setValue(this.user.password)
-        this.imageUrl = '../../../../assets/profilePhotos/' + this.user.profilePic
+        if (this.user.profilePic) {
+          this.imageUrl = '../../../../assets/profilePhotos/' + this.user.profilePic
+        }
         this.profileForm.disable();
       }
     });
@@ -105,7 +107,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     reader.onload = (e) => {
       if (e.target?.result) {
         this.imageUrl = e.target.result.toString();
-        localStorage.setItem('img', this.imageUrl);
       }
     };
     reader.readAsDataURL(file);
@@ -133,6 +134,5 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     this.auth.update(formData);
-
   }
 }

@@ -16,6 +16,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ProfileComponent } from './common/components/profile/profile.component';
 import { Task } from './services/task';
 
+import { MatInputModule } from '@angular/material/input';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +39,8 @@ import { Task } from './services/task';
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [Auth, Task],
   bootstrap: [AppComponent]

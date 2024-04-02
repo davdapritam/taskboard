@@ -4,37 +4,25 @@
 
             <div class="card-body p-4">
                 <div class="text-center mt-2">
-                    <h5 class="text-primary">Login</h5>
+                    <div class="text-primary loginTitle">Login</div>
                 </div>
                 <div class="p-2 mt-4">
                     <form [formGroup]="loginForm">
 
                         <div class="mb-3">
-                            <label for="username" class="form-label">Email</label>
-                            <input type="email" formControlName="email" name="email" class="form-control" id="email"
-                                placeholder="Enter email">
-                            <mat-error *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-                                Please Enter Email.
-                            </mat-error>
+                            <mat-form-field class="w-100">
+                                <mat-label>Email</mat-label>
+                                <input matInput formControlName="email">
+                                <mat-error>Please Enter Email.</mat-error>
+                            </mat-form-field>
                         </div>
 
                         <div class="mb-3">
-                            <!-- <div class="float-end">
-                                <a href="auth-pass-reset-basic.html" class="text-muted">Forgot password?</a>
-                            </div> -->
-                            <label class="form-label" for="password-input">Password</label>
-                            <div class="position-relative auth-pass-inputgroup mb-3">
-                                <input type="password" class="form-control pe-5 password-input"
-                                    placeholder="Enter password" id="password-input" formControlName="password"
-                                    name="password">
-                                <mat-error
-                                    *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-                                    Please Enter Email.
-                                </mat-error>
-                                <button
-                                    class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted shadow-none password-addon"
-                                    type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                            </div>
+                            <mat-form-field class="w-100">
+                                <mat-label>Password</mat-label>
+                                <input matInput formControlName="password">
+                                <mat-error>Please Enter password.</mat-error>
+                            </mat-form-field>
                         </div>
 
                         <div class="form-check">
@@ -53,7 +41,8 @@
 
         <div class="mt-4 text-center">
             <p class="mb-0">Don't have an account ? <a href="javascript:void(0);"
-                    class="fw-semibold text-primary text-decoration-underline" (click)="redirectTo('signup')"> Signup
+                    class="fw-semibold text-primary text-decoration-underline" (click)="redirectTo('signup')">
+                    Signup
                 </a> </p>
         </div>
 

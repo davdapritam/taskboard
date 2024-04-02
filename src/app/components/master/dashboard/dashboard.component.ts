@@ -3,7 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateTaskBoardComponent } from '../../task/create-task-board/create-task-board.component';
 import { TaskService } from 'src/app/services/task.service';
 import { CreateTaskComponent } from '../../task/create-task/create-task.component';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dashboard',
@@ -113,6 +114,54 @@ export class DashboardComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.fetchTaskBoards();
     });
+  }
+
+  deleteTaskBoard(boardId: string) {
+    Swal.fire({
+      title: 'Are you sure you want to delete?',
+      text: 'This process is irreversible.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.value) {
+        this.taskService.deleteTaskBoard(boardId).subscribe((res) => {
+          if (res && res.Status == 1) {
+            this.fetchTaskBoards();
+            Swal.fire(
+              'Removed!',
+              'Item removed successfully.',
+              'success'
+            )
+          }
+        })
+      }
+    })
+  }
+
+  deleteTask(taskId: string, boardId: string) {
+    Swal.fire({
+      title: 'Are you sure you want to delete?',
+      text: 'This process is irreversible.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.value) {
+        this.taskService.deleteTask(taskId, boardId).subscribe((res) => {
+          if (res && res.Status == 1) {
+            this.fetchTaskBoards();
+            Swal.fire(
+              'Removed!',
+              'Item removed successfully.',
+              'success'
+            )
+          }
+        })
+      }
+    })
   }
 
 }

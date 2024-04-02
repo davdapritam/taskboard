@@ -52,4 +52,13 @@ export class TaskService {
     return this.http.put<any>(this.baseUrl + `task/taskDragDrop`, data);
   }
 
+  // delete
+  deleteTaskBoard(id: string) {
+    return this.http.delete<any>(this.baseUrl + `task/taskboards/delete/${id}`);
+  }
+
+  deleteTask(taskId: string, boardId: string) {
+    return this.http.delete<any>(this.baseUrl + `task/tasks/delete/${taskId}/${boardId}`);
+  }
+
 }

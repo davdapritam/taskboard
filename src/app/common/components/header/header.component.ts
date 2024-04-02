@@ -16,4 +16,10 @@ export class HeaderComponent {
     this.router.navigate([`${path}`])
   }
 
+
+  logout() {
+    localStorage.removeItem('upmetricsCred');
+    this.router.navigate(['login'])
+  }
+
 }

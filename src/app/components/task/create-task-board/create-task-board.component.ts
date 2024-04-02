@@ -11,6 +11,7 @@ import { TaskService } from 'src/app/services/task.service';
 export class CreateTaskBoardComponent implements OnInit {
 
   taskBoardForm!: FormGroup;
+  isEdit: boolean = false;
 
   constructor(private fb: FormBuilder,
     private taskService: TaskService, public dialogRef: MatDialogRef<CreateTaskBoardComponent>,
@@ -19,7 +20,8 @@ export class CreateTaskBoardComponent implements OnInit {
   ngOnInit(): void {
     this.initTaskBoardForm();
 
-    if (this.data.boardId) {
+    if (this.data?.boardId) {
+      this.isEdit = true;
       this.getTaskBoardById();
     }
   }

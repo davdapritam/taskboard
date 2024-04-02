@@ -5,8 +5,6 @@ import { MasterRoutingModule } from './master-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MasterComponent } from './master.component';
 import { HeaderComponent } from 'src/app/common/components/header/header.component';
-import { TaskBoardComponent } from '../task/task-board/task-board.component';
-import { TaskComponent } from '../task/task/task.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,14 +18,13 @@ import {
   CdkDrag,
   CdkDropList,
 } from '@angular/cdk/drag-drop';
+import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 
 @NgModule({
   declarations: [
     DashboardComponent,
     MasterComponent,
     HeaderComponent,
-    TaskBoardComponent,
-    TaskComponent,
     CreateTaskComponent,
     CreateTaskBoardComponent
   ],
@@ -43,7 +40,8 @@ import {
     MatButtonModule,
     CdkDropList,
     CdkDrag,
-    MatMenuModule
+    MatMenuModule,
+    SweetAlert2Module
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

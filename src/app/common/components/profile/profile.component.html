@@ -11,7 +11,7 @@
                 <div class="profileImg">
                     <img class="img-thumbnail rounded-circle avatar-xl" alt="200x200"
                         src="../../../../assets/avatar.svg" *ngIf="!imageUrl">
-                    <img class="img-thumbnail rounded-circle avatar-xl" alt="200x200" *ngIf="imageUrl" [src]="imageUrl">
+                    <img class="img-thumbnail rounded-circle avatar-xl" *ngIf="imageUrl" [src]="imageUrl">
                 </div>
                 <input type="file" class="fileuploader" (change)="onFileSelected($event)">
                 <button class="fileuploaderBtn"><i class="fa-solid fa-arrow-rotate-left"></i></button>
@@ -19,28 +19,43 @@
 
             <div class="cardRow">
                 <div class="inputDiv">
-                    <label class="inputLabel" for="">First Name</label>
-                    <input type="text" class="form-control" formControlName="firstName" name="firstName">
+                    <mat-form-field class="w-100">
+                        <mat-label>First Name</mat-label>
+                        <input matInput formControlName="firstName">
+                        <mat-error>Please Enter First Name.</mat-error>
+                    </mat-form-field>
                 </div>
                 <div class="inputDiv">
-                    <label class="inputLabel" for="">Last Name</label>
-                    <input type="text" class="form-control" formControlName="lastName" name="lastName">
-                </div>
-            </div>
-            <div class="cardRow">
-                <div class="inputDiv">
-                    <label class="inputLabel" for="">Mobile No.</label>
-                    <input type="text" class="form-control" formControlName="mobileNo" name="mobileNo">
-                </div>
-                <div class="inputDiv">
-                    <label class="inputLabel" for="">Email</label>
-                    <input type="text" class="form-control" formControlName="email" name="email">
+                    <mat-form-field class="w-100">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput formControlName="lastName">
+                        <mat-error>Please Enter Last Name.</mat-error>
+                    </mat-form-field>
                 </div>
             </div>
             <div class="cardRow">
                 <div class="inputDiv">
-                    <label class="inputLabel" for="">Password</label>
-                    <input type="password" class="form-control" formControlName="password" name="password">
+                    <mat-form-field class="w-100">
+                        <mat-label>Mobile No.</mat-label>
+                        <input matInput formControlName="mobileNo">
+                        <mat-error>Please Enter Mobile No.</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="inputDiv">
+                    <mat-form-field class="w-100">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email">
+                        <mat-error>Please Enter Email.</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="cardRow">
+                <div class="inputDiv">
+                    <mat-form-field class="w-100">
+                        <mat-label>Password</mat-label>
+                        <input type="{{ isEdit ? 'text' : 'password'}}" matInput formControlName="password">
+                        <mat-error>Please Enter Password.</mat-error>
+                    </mat-form-field>
                 </div>
             </div>
 

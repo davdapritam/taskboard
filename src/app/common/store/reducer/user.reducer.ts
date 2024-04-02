@@ -27,6 +27,8 @@ export const initialState: UserState = {
 export function UserReducer(state = initialState, action: Action): UserState {
     switch (action.type) {
 
+        case AuthActionType.USER_GET_BY_ID:
+            return { ...state, isLoading: false, isLoaded: false, isError: false }
         case AuthActionType.USER_SUCCESS:
             return { ...state, isLoading: false, isLoaded: true, user: action.payload, isError: false }
 
