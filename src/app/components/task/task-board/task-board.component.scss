@@ -1,5 +1,8 @@
 .taskBoard {
     width: 100%;
+    background-color: #ececec;
+    padding: 15px;
+    border-radius: 3px;
 
     .boardTitle {
         font-size: 16px;
@@ -10,12 +13,13 @@
         margin-top: 7px;
         display: flex;
         flex-direction: column;
-        gap: 10px;
 
         .task {
             background-color: white;
             border: 7px;
             padding: 8px;
+            border-radius: 4px;
+            margin-top: 10px;
         }
 
         .createTask {

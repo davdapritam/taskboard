@@ -1,0 +1,26 @@
+<div class="createTaskContainer">
+    <div class="mainTaskContainer">
+        <div class="containerTitle">
+            Create Task Board
+        </div>
+
+        <div class="task-container mt-3">
+            <div class="taskTitle" [formGroup]="taskBoardForm">
+                <mat-form-field class="w-100">
+                    <mat-label>Title</mat-label>
+                    <input matInput formControlName="title">
+                    <mat-error>Please Enter Title</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="submitBtns">
+                <button class="submit" *ngIf="!data.boardId" mat-raised-button color="primary"
+                    (click)="createTaskBoard()">Create</button>
+                <button class="submit" *ngIf="data.boardId" mat-raised-button color="primary"
+                    (click)="updateTaskBoard()">Update</button>
+                <button class="close" mat-raised-button color="warn" (click)="closeDialog()">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

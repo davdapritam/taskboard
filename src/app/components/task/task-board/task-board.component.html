@@ -1,8 +1,15 @@
-<div class="taskBoard">
+<div class="taskBoard" cdkDropListGroup>
     <div class="boardTitle">
-        To Do
+        {{ title }} {{ boardID }}
     </div>
-    <div class="taskList">
+    <div class="taskList" cdkDropList [cdkDropListData]="taskList" (cdkDropListDropped)="drop($event)">
+
+        <div class="task" *ngFor="let task of taskList" cdkDrag [cdkDragData]="task">
+            <div class="desc">
+                {{ task.title }}
+            </div>
+        </div>
+
         <div class="createTask" (click)="openDialog()">
             + Create Task
         </div>

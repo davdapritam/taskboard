@@ -1,13 +1,49 @@
 <div class="dashboardContainer">
     <div class="mainContainer">
         <div class="taskContainer">
-            <ng-container>
-                <div class="task-board">
-                    <app-task-board></app-task-board>
-                </div>
-            </ng-container>
 
-            <div class="addTaskBoard">
+            <div class="task-board" *ngFor="let taskboard of taskBoards">
+                <div class="taskBoard example-container" cdkDropListGroup>
+                    <div class="boardTitle">
+                        {{ taskboard.title }}
+                    </div>
+                    <div class="editBoard">
+                        <button mat-button [matMenuTriggerFor]="menu"><span class="edit">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </span></button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item class="menuItem" (click)="openEditDialog(taskboard._id)">
+                                <span><i class="fa-solid fa-pen-to-square"></i></span> Edit</button>
+                            <button mat-menu-item class="menuItem">
+                                <span><i class="fa-solid fa-trash"></i></span> Delete
+                            </button>
+                        </mat-menu>
+                    </div>
+                    <div class="taskList" [id]="taskboard._id" class="taskList" cdkDropList #todoList="cdkDropList"
+                        (cdkDropListDropped)="onTaskDropped($event, taskboard)"
+                        [cdkDropListConnectedTo]="getConnectedDropLists(taskboard)"
+                        [cdkDropListData]="taskboard.taskIds">
+
+                        <div class="task example-box" *ngFor="let task of taskboard.taskIds" cdkDrag
+                            [cdkDragData]="task">
+                            <div class="desc">
+                                {{ task.title }}
+                            </div>
+                            <div class="editTask">
+                                <span (click)="editTask(task, taskboard._id)">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="createTask" (click)="openTaskDialog(taskboard._id)">
+                            + Create Task
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="addTaskBoard" (click)="openDialog()">
                 + Add board
             </div>
 

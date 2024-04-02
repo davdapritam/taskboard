@@ -4,31 +4,37 @@
             Create Task
         </div>
 
-        <div class="task-container">
+        <div class="task-container" [formGroup]="taskForm">
             <div class="taskTitle">
                 <mat-form-field class="w-100">
                     <mat-label>Title</mat-label>
-                    <input matInput>
+                    <input matInput formControlName="title">
+                    <mat-error>Please Enter Title.</mat-error>
                 </mat-form-field>
             </div>
             <div class="taskDescription">
                 <mat-form-field class="w-100">
                     <mat-label>Description</mat-label>
-                    <textarea matInput></textarea>
+                    <textarea matInput formControlName="description"></textarea>
+                    <mat-error>Please Enter Description</mat-error>
                 </mat-form-field>
             </div>
             <div class="assignTo">
                 <mat-form-field class="w-100">
                     <mat-label>Assign To</mat-label>
-                    <mat-select>
+                    <mat-select formControlName="assign">
                         <mat-option [value]="user.email" *ngFor="let user of users">{{ user.firstName }} {{
                             user.lastName
                             }}</mat-option>
                     </mat-select>
+                    <mat-error>Select Assignee</mat-error>
                 </mat-form-field>
             </div>
             <div class="submitBtns">
-                <button class="submit" mat-raised-button color="primary">Submit</button>
+                <button class="submit" mat-raised-button color="primary" (click)="createTask()"
+                    *ngIf="!data.taskId">Save</button>
+                <button class="submit" mat-raised-button color="primary" (click)="updateTask()"
+                    *ngIf="data.taskId">Update</button>
                 <button class="close" mat-raised-button color="warn" (click)="closeDialog()">Close</button>
             </div>
         </div>
