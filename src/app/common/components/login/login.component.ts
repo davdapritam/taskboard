@@ -11,14 +11,13 @@ import { SharedService } from 'src/app/services/shared.service';
   styleUrls: ['./login.component.scss']
 })
 
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
 
   user!: User;
   isAuthenticated: boolean = false;
   hasErrors: boolean = false;
-  isAlive: boolean = true;
 
   constructor(private fb: FormBuilder,
     private router: Router,
@@ -30,7 +29,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.checkUser();
     this.initLoginForm();
-    // this.fetchInformation();
   }
 
   checkUser() {
@@ -57,19 +55,5 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.loginForm.valid) {
       this.auth.login(data, true);
     }
-  }
-
-  // fetchInformation() {
-  //   const isAuthenticated$ = this.auth.login()[0];
-  //   const hasErrors$ = this.auth.login()[1];
-  //   const user$ = this.auth.login()[2];
-
-  //   isAuthenticated$.pipe(takeWhile(() => this.isAlive)).subscribe((data) => this.isAuthenticated = data);
-  //   hasErrors$.pipe(takeWhile(() => this.isAlive)).subscribe((data) => this.hasErrors = data);
-  //   user$.pipe(takeWhile(() => this.isAlive)).subscribe((data) => { this.user = data });
-  // }
-
-  ngOnDestroy(): void {
-    this.isAlive = false;
   }
 }

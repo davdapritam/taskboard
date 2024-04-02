@@ -17,6 +17,7 @@ import { ProfileComponent } from './common/components/profile/profile.component'
 import { Task } from './services/task';
 
 import { MatInputModule } from '@angular/material/input';
+import { ForgotPasswordComponent } from './common/components/forgot-password/forgot-password.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { MatInputModule } from '@angular/material/input';
     LoginComponent,
     SignupComponent,
     ProfileComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,

@@ -32,4 +32,12 @@ export class AuthService {
     return this.http.put<any>(this.baseUrl + `user/update/${id}`, data, { headers: header });
   }
 
+  checkUser(mobileNo: number) {
+    return this.http.get<any>(this.baseUrl + `user/checkUser/${mobileNo}`);
+  }
+
+  updatePassword(data: any) {
+    return this.http.post<any>(this.baseUrl + `user/changePassword`, data);
+  }
+
 }

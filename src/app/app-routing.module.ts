@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './common/components/login/login.component';
 import { SignupComponent } from './common/components/signup/signup.component';
 import { ProfileComponent } from './common/components/profile/profile.component';
+import { ForgotPasswordComponent } from './common/components/forgot-password/forgot-password.component';
 
 
 const routes: Routes = [
@@ -28,7 +29,15 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent
-  }
+  },
+  {
+    path: 'forgotPassword',
+    component: ForgotPasswordComponent
+  },
+  {
+    path: 'forgotPassword/:number/:id',
+    component: ForgotPasswordComponent
+  },
 ];
 
 @NgModule({
