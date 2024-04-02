@@ -15,6 +15,7 @@ export enum AuthActionType {
     USER_SUCCESS = '[GET] Get User Successfully',
     USER_ERROR = '[GET] Error Getting User',
     USER_UPDATE = '[GET] User Update',
+    USER_UPDATE_SUCCESS = '[GET] Get User Successfully',
 
 }
 
@@ -79,6 +80,12 @@ export class UserErrorAction {
 
 export class UserUpdateAction {
     readonly type = AuthActionType.USER_UPDATE
+
+    constructor(public payload?: any) { }
+}
+
+export class UserUpdateSuccessAction {
+    readonly type = AuthActionType.USER_UPDATE_SUCCESS
 
     constructor(public payload?: any) { }
 }

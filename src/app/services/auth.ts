@@ -4,7 +4,7 @@ import { Store } from "@ngrx/store";
 import { RootReducerState, getError, getIsAuthenticated, getUser, getUserById, getisLoaded, getisLoading, userError } from "../common/store/reducer";
 import { Observable, combineLatest, take } from "rxjs";
 import { LoginRequestData, User, LoginResponse, signUpRequestData, GetUser } from "../common/interface/user";
-import { LoginAction, LoginSuccessAction, LoginErrorAction, SignupAction, SignupSuccessAction, SignupErrorAction, SignupExistsAction, UserGetByIDAction, UserSuccessAction, UserErrorAction } from "../common/store/action/auth.action";
+import { LoginAction, LoginSuccessAction, LoginErrorAction, SignupAction, SignupSuccessAction, SignupErrorAction, SignupExistsAction, UserGetByIDAction, UserSuccessAction, UserErrorAction, UserUpdateAction, UserUpdateSuccessAction } from "../common/store/action/auth.action";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 
@@ -89,6 +89,30 @@ export class Auth {
                 })
             }
         })
+
+        return [isLoading$, isLoaded$, user$, userError$]
+    }
+
+    update(userData: any): [Observable<boolean>, Observable<boolean>, Observable<GetUser>, Observable<boolean>] {
+        const isLoading$ = this.store.select(getisLoading);
+        const isLoaded$ = this.store.select(getisLoaded);
+        const user$ = this.store.select(getUserById);
+        const userError$ = this.store.select(userError);
+
+        this.store.dispatch(new UserUpdateAction());
+        const user = localStorage.getItem('upmetricsCred');
+        if (user) {
+            this.authService.updateUser(userData, JSON.parse(user).id, JSON.parse(user).token).subscribe((res) => {
+                if (res && res.Status == 1) {
+                    this.store.dispatch(new UserUpdateSuccessAction(res.data))
+                } else {
+                    this.store.dispatch(new UserErrorAction());
+                    this.toastrService.error(res.message);
+                }
+            }, (error) => {
+                this.store.dispatch(new UserErrorAction());
+            })
+        }
 
         return [isLoading$, isLoaded$, user$, userError$]
     }

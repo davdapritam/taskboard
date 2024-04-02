@@ -17,6 +17,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   isLoading = false;
   isLoaded = false;
   isAlive: boolean = true;
+  isEdit: boolean = false;
 
   constructor(private auth: Auth, private fb: FormBuilder) {
 
@@ -63,8 +64,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.profileForm.get('mobileNo')?.setValue(this.user.mobileNo)
         this.profileForm.get('email')?.setValue(this.user.email)
         this.profileForm.get('password')?.setValue(this.user.password)
+        this.imageUrl = '../../../../assets/profilePhotos/' + this.user.profilePic
+        this.profileForm.disable();
       }
     });
+
+    const image = localStorage.getItem('img');
+    if (image) {
+      this.imageUrl = image
+
+    }
 
   }
 
@@ -79,11 +88,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   imageUrl: string | ArrayBuffer | null = null;
+  imageFile: any;
 
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
 
     if (file) {
+      this.imageFile = file;
       this.readAndDisplayImage(file);
     }
   }
@@ -94,8 +105,34 @@ export class ProfileComponent implements OnInit, OnDestroy {
     reader.onload = (e) => {
       if (e.target?.result) {
         this.imageUrl = e.target.result.toString();
+        localStorage.setItem('img', this.imageUrl);
       }
     };
     reader.readAsDataURL(file);
+  }
+
+  enableForm() {
+
+    this.profileForm.enabled ? this.profileForm.disable() : this.profileForm.enable();
+    this.isEdit = !this.isEdit;
+  }
+
+  updateForm() {
+    const formData = new FormData();
+
+    const data = this.profileForm.value;
+
+    formData.append('firstName', data.firstName)
+    formData.append('lastName', data.lastName)
+    formData.append('mobileNo', data.mobileNo)
+    formData.append('email', data.email)
+    formData.append('password', data.password)
+
+    if (this.imageUrl) {
+      formData.append('profilePhoto', this.imageFile)
+    }
+
+    this.auth.update(formData);
+
   }
 }

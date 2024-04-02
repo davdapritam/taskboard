@@ -19,6 +19,15 @@
             padding: 25px;
             border: 1px solid #ececec;
             border-radius: 8px;
+            position: relative;
+
+            .formEdit {
+                position: absolute;
+                right: 10px;
+                top: 15px;
+                color: #4057b9;
+                cursor: pointer;
+            }
 
             .profilePhoto {
                 display: flex;
@@ -89,6 +98,20 @@
                         box-shadow: none;
                         outline: none;
                     }
+                }
+            }
+
+            .updateBtn {
+                display: flex;
+                width: 100%;
+                margin-top: 10px;
+                justify-content: end;
+
+                button {
+                    padding: 5px 10px;
+                    font-size: 14px;
+                    background: #5263bd;
+                    border: none;
                 }
             }
         }

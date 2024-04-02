@@ -31,3 +31,10 @@ export interface GetUser {
     password: string,
     profilePic: string
 }
+
+export interface UserDropdown {
+    email: string,
+    id: string,
+    firstName: string,
+    lastName: string
+}

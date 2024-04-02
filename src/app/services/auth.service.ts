@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginRequestData, LoginResponse, signUpRequestData } from '../common/interface/user';
+import { LoginResponse, signUpRequestData } from '../common/interface/user';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -23,6 +23,13 @@ export class AuthService {
 
   getUserById(id: any): Observable<LoginResponse> {
     return this.http.get<LoginResponse>(this.baseUrl + `user/getUserById/${id}`);
+  }
+
+  updateUser(data: any, id: any, token: any): Observable<any> {
+    const header = new HttpHeaders({
+      'Authorization': `${token}`
+    })
+    return this.http.put<any>(this.baseUrl + `user/update/${id}`, data, { headers: header });
   }
 
 }

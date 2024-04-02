@@ -3,6 +3,10 @@
         <div class="mainCard" [formGroup]="profileForm">
             <div class="cardHeader">Profile</div>
 
+            <div class="formEdit" (click)="enableForm()">
+                <i class="fa-solid fa-pen-to-square"></i> Edit
+            </div>
+
             <div class="profilePhoto mt-3">
                 <div class="profileImg">
                     <img class="img-thumbnail rounded-circle avatar-xl" alt="200x200"
@@ -38,6 +42,10 @@
                     <label class="inputLabel" for="">Password</label>
                     <input type="password" class="form-control" formControlName="password" name="password">
                 </div>
+            </div>
+
+            <div class="updateBtn">
+                <button class="btn btn-primary" *ngIf="isEdit" (click)="updateForm()">Update</button>
             </div>
         </div>
     </div>

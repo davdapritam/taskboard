@@ -1,0 +1,27 @@
+.taskBoard {
+    width: 100%;
+
+    .boardTitle {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .taskList {
+        margin-top: 7px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .task {
+            background-color: white;
+            border: 7px;
+            padding: 8px;
+        }
+
+        .createTask {
+            margin-top: 10px;
+            margin-left: 6px;
+            cursor: pointer;
+        }
+    }
+}

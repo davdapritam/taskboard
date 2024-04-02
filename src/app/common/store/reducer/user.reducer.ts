@@ -31,7 +31,10 @@ export function UserReducer(state = initialState, action: Action): UserState {
             return { ...state, isLoading: false, isLoaded: true, user: action.payload, isError: false }
 
         case AuthActionType.USER_ERROR:
-            return { ...state, isLoading: true, isLoaded: false, user: action.payload, isError: true }
+            return { ...state, isLoading: true, isLoaded: false, isError: true }
+
+        case AuthActionType.USER_UPDATE_SUCCESS:
+            return { ...state, isLoading: false, isLoaded: true, user: action.payload, isError: false }
 
         default:
             return { ...state }

@@ -1,0 +1,33 @@
+.createTaskContainer {
+    padding: 20px;
+    width: 450px;
+
+    .mainTaskContainer {
+        .containerTitle {
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .submitBtns {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+
+            button {
+                width: 50%;
+                height: 40px;
+            }
+        }
+
+    }
+}
+
+
+::ng-deep .mdc-text-field {
+    background-color: white !important;
+}
+
+::ng-deep .mdc-text-field--focused {
+    background-color: white !important;
+}

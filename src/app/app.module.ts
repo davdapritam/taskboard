@@ -14,6 +14,7 @@ import { Auth } from './services/auth';
 import { ToastrModule } from 'ngx-toastr';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ProfileComponent } from './common/components/profile/profile.component';
+import { Task } from './services/task';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { ProfileComponent } from './common/components/profile/profile.component'
     }),
     MatFormFieldModule
   ],
-  providers: [Auth],
+  providers: [Auth, Task],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

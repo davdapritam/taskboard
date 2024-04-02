@@ -1,0 +1,37 @@
+<div class="createTaskContainer">
+    <div class="mainTaskContainer">
+        <div class="containerTitle">
+            Create Task
+        </div>
+
+        <div class="task-container">
+            <div class="taskTitle">
+                <mat-form-field class="w-100">
+                    <mat-label>Title</mat-label>
+                    <input matInput>
+                </mat-form-field>
+            </div>
+            <div class="taskDescription">
+                <mat-form-field class="w-100">
+                    <mat-label>Description</mat-label>
+                    <textarea matInput></textarea>
+                </mat-form-field>
+            </div>
+            <div class="assignTo">
+                <mat-form-field class="w-100">
+                    <mat-label>Assign To</mat-label>
+                    <mat-select>
+                        <mat-option [value]="user.email" *ngFor="let user of users">{{ user.firstName }} {{
+                            user.lastName
+                            }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="submitBtns">
+                <button class="submit" mat-raised-button color="primary">Submit</button>
+                <button class="close" mat-raised-button color="warn" (click)="closeDialog()">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
