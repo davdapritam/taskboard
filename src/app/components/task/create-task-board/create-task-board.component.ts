@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { SharedService } from 'src/app/services/shared.service';
 import { TaskService } from 'src/app/services/task.service';
 
 @Component({
@@ -15,7 +17,7 @@ export class CreateTaskBoardComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private taskService: TaskService, public dialogRef: MatDialogRef<CreateTaskBoardComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any, private sharedService: SharedService, private toastrService: ToastrService) { }
 
   ngOnInit(): void {
     this.initTaskBoardForm();
@@ -28,7 +30,6 @@ export class CreateTaskBoardComponent implements OnInit {
 
   getTaskBoardById() {
     this.taskService.getTaskBoardById(this.data.boardId).subscribe((res) => {
-      console.log(res);
       if (res && res.Status == 1) {
         this.taskBoardForm.get('title')?.setValue(res.data.title);
       }
@@ -43,12 +44,16 @@ export class CreateTaskBoardComponent implements OnInit {
 
   createTaskBoard() {
     if (this.taskBoardForm.valid) {
-      const data = this.taskBoardForm.value;
+
+      const data = { ...this.taskBoardForm.value, userId: this.sharedService.user.id };
       this.taskService.createTaskBoard(data).subscribe((res) => {
 
         if (res && res.Status == 1) {
           this.dialogRef.close();
+        } else {
+          this.toastrService.error(res.message)
         }
+
       })
     } else {
       this.taskBoardForm.markAllAsTouched();

@@ -19,6 +19,8 @@ export class LoginComponent implements OnInit {
   isAuthenticated: boolean = false;
   hasErrors: boolean = false;
 
+  showPassword: boolean = false;
+
   constructor(private fb: FormBuilder,
     private router: Router,
     private auth: Auth,
@@ -55,5 +57,9 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.auth.login(data, true);
     }
+  }
+
+  toggleEye() {
+    this.showPassword = !this.showPassword;
   }
 }

@@ -7,13 +7,14 @@ import { LoginRequestData, User, LoginResponse, signUpRequestData, GetUser } fro
 import { LoginAction, LoginSuccessAction, LoginErrorAction, SignupAction, SignupSuccessAction, SignupErrorAction, SignupExistsAction, UserGetByIDAction, UserSuccessAction, UserErrorAction, UserUpdateAction, UserUpdateSuccessAction } from "../common/store/action/auth.action";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { SharedService } from "./shared.service";
 
 
 @Injectable()
 export class Auth {
 
     constructor(private authService: AuthService, private store: Store<RootReducerState>,
-        private router: Router, private toastrService: ToastrService) { }
+        private router: Router, private toastrService: ToastrService, private sharedService: SharedService) { }
 
     login(userData?: LoginRequestData, force = false): [Observable<boolean>, Observable<boolean>, Observable<User>] {
 
@@ -27,6 +28,9 @@ export class Auth {
                 this.authService.login(userData).subscribe((res: LoginResponse) => {
                     if (res && res.Status == 1) {
                         localStorage.setItem('upmetricsCred', JSON.stringify(res.data))
+                        this.sharedService.isTaskBoardForce = true;
+                        this.sharedService.isProfileForce = true;
+                        this.sharedService.user = res.data;
                         this.store.dispatch(new LoginSuccessAction({ data: res.data }))
                         this.router.navigate(['master'])
                     } else {
@@ -68,7 +72,7 @@ export class Auth {
         return [isAuthenticated$, hasError$, user$]
     }
 
-    getUserById(id?: string, force = false): [Observable<boolean>, Observable<boolean>, Observable<GetUser>, Observable<boolean>] {
+    getUserById(force?: boolean): [Observable<boolean>, Observable<boolean>, Observable<GetUser>, Observable<boolean>] {
         const isLoading$ = this.store.select(getisLoading);
         const isLoaded$ = this.store.select(getisLoaded);
         const user$ = this.store.select(getUserById);
@@ -77,8 +81,11 @@ export class Auth {
         combineLatest([isLoaded$, isLoading$]).pipe(take(1)).subscribe((data) => {
             if ((!data[0] && !data[1]) && force) {
                 this.store.dispatch(new UserGetByIDAction());
-                this.authService.getUserById(id).subscribe((res) => {
+                this.authService.getUserById(this.sharedService.user.id).subscribe((res) => {
                     if (res && res.Status == 1) {
+                        if (this.sharedService.isProfileForce) {
+                            this.sharedService.isProfileForce = false;
+                        }
                         this.store.dispatch(new UserSuccessAction(res.data))
                     } else {
                         this.store.dispatch(new UserErrorAction());

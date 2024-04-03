@@ -5,6 +5,10 @@ import { TaskService } from 'src/app/services/task.service';
 import { CreateTaskComponent } from '../../task/create-task/create-task.component';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import Swal from 'sweetalert2';
+import { SharedService } from 'src/app/services/shared.service';
+import { Task } from 'src/app/services/task';
+import { TaskBoard } from 'src/app/common/interface/task';
+import { takeWhile } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,10 +17,14 @@ import Swal from 'sweetalert2';
 })
 export class DashboardComponent implements OnInit {
 
-  taskBoards: any[] = [];
-  taskList: any[] = [];
+  taskBoards: TaskBoard[] = [];
 
-  constructor(public dialog: MatDialog, private taskService: TaskService) {
+  isLoading: boolean = false;
+  isLoaded: boolean = false;
+  isError: boolean = false;
+  isAlive: boolean = true;
+
+  constructor(public dialog: MatDialog, private taskService: TaskService, private sharedService: SharedService, private task: Task) {
 
   }
 
@@ -25,19 +33,28 @@ export class DashboardComponent implements OnInit {
   }
 
   fetchTaskBoards() {
-    this.taskService.getAllTaskBoards().subscribe((res) => {
-      if (res && res.Status == 1) {
-        this.taskBoards = res.data;
-        console.log(this.taskBoards);
-      }
-    })
+
+    const isLoading$ = this.task.getTaskboards(this.sharedService.isTaskBoardForce)[0];
+    const isLoaded$ = this.task.getTaskboards()[1];
+    const taskBoards$ = this.task.getTaskboards()[2];
+    const error$ = this.task.getTaskboards()[3];
+
+    isLoaded$.pipe(takeWhile(() => this.isAlive)).subscribe((data) => this.isLoaded = data);
+    isLoading$.pipe(takeWhile(() => this.isAlive)).subscribe((data) => this.isLoading = data);
+    taskBoards$.pipe(takeWhile(() => this.isAlive)).subscribe((data) => this.taskBoards = data);
+    error$.pipe(takeWhile(() => this.isAlive)).subscribe((data) => this.isError = data);
+
+  }
+
+  fetchTaskBoard() {
+    this.task.getTaskboards(true);
   }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(CreateTaskBoardComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      this.fetchTaskBoards();
+      this.fetchTaskBoard();
     });
   }
 
@@ -47,18 +64,8 @@ export class DashboardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.fetchTaskBoards();
+      this.fetchTaskBoard();
     });
-  }
-
-  getTasks(boardId: string) {
-    this.taskService.getTasksByBoardId(boardId).subscribe((res) => {
-      console.log(res);
-      if (res && res.Status == 1) {
-        this.taskList = res.data.taskIds
-        console.log(this.taskList)
-      }
-    })
   }
 
   openTaskDialog(boardID: any): void {
@@ -67,7 +74,7 @@ export class DashboardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.fetchTaskBoards();
+      this.fetchTaskBoard();
     });
   }
 
@@ -76,7 +83,6 @@ export class DashboardComponent implements OnInit {
   }
 
   getConnectedDropLists(taskboard: any): string[] {
-
     const connectedDropListIds = this.taskBoards
       .filter(board => board._id !== taskboard._id)
       .map(board => board._id);
@@ -87,8 +93,6 @@ export class DashboardComponent implements OnInit {
 
   onTaskDropped(event: CdkDragDrop<any[]>, targetBoard: any) {
     const draggedTask = event.item.data;
-    console.log(draggedTask)
-    console.log(targetBoard)
     this.updateDragAndDrop(draggedTask, targetBoard);
   }
 
@@ -101,7 +105,7 @@ export class DashboardComponent implements OnInit {
     }
     this.taskService.updateDragDrop(data).subscribe((res) => {
       if (res && res.Status == 1) {
-        this.fetchTaskBoards();
+        this.fetchTaskBoard();
       }
     })
   }
@@ -112,7 +116,7 @@ export class DashboardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.fetchTaskBoards();
+      this.fetchTaskBoard();
     });
   }
 
@@ -128,12 +132,15 @@ export class DashboardComponent implements OnInit {
       if (result.value) {
         this.taskService.deleteTaskBoard(boardId).subscribe((res) => {
           if (res && res.Status == 1) {
-            this.fetchTaskBoards();
-            Swal.fire(
-              'Removed!',
-              'Item removed successfully.',
-              'success'
-            )
+            this.fetchTaskBoard();
+            Swal.fire({
+              title: 'Removed!',
+              text: 'Item removed successfully.',
+              icon: 'success',
+              showConfirmButton: false,
+              showCancelButton: false,
+              timer: 2000
+            })
           }
         })
       }
@@ -152,7 +159,7 @@ export class DashboardComponent implements OnInit {
       if (result.value) {
         this.taskService.deleteTask(taskId, boardId).subscribe((res) => {
           if (res && res.Status == 1) {
-            this.fetchTaskBoards();
+            this.fetchTaskBoard();
             Swal.fire(
               'Removed!',
               'Item removed successfully.',

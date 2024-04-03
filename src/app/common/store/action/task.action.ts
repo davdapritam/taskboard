@@ -1,3 +1,5 @@
+import { UserDropdown } from "../../interface/user"
+
 export enum TaskActionType {
     GET_USER_LIST = '[TASK] Get User List',
     USER_LIST_SUCCESS = '[TASK] User List Success',
@@ -12,7 +14,7 @@ export class UserListAction {
 export class UserListSuccessAction {
     readonly type = TaskActionType.USER_LIST_SUCCESS
 
-    constructor(public payload?: any) { }
+    constructor(public payload?: UserDropdown[]) { }
 }
 
 export class UserListErrorAction {

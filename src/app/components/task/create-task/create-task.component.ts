@@ -39,7 +39,6 @@ export class CreateTaskComponent implements OnInit, OnDestroy {
   getTaskById() {
     this.taskService.getTaskById(this.data.taskId).subscribe((res) => {
       if (res && res.Status == 1) {
-        console.log(res);
         this.taskForm.get('title')?.setValue(res.data.title)
         this.taskForm.get('description')?.setValue(res.data.description)
         this.taskForm.get('assign')?.setValue(res.data.assign)
@@ -62,7 +61,6 @@ export class CreateTaskComponent implements OnInit, OnDestroy {
   createTask() {
     const data = { ...this.taskForm.value, boardId: this.data.boardID }
     this.taskService.createTask(data).subscribe((res) => {
-      console.log(res);
       if (res && res.Status == 1) {
         this.toastrService.success(res.message);
       } else {

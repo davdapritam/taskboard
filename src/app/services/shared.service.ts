@@ -8,5 +8,8 @@ export class SharedService {
 
   user!: User;
 
+  isTaskBoardForce: boolean = false;
+  isProfileForce: boolean = false;
+
   constructor() { }
 }

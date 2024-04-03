@@ -17,12 +17,22 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="position-relative mb-3">
                             <mat-form-field class="w-100">
                                 <mat-label>Password</mat-label>
-                                <input matInput formControlName="password">
+                                <input [type]="showPassword ? 'text' : 'password'" matInput formControlName="password">
                                 <mat-error>Please Enter password.</mat-error>
                             </mat-form-field>
+                            <span class="eyePosition" *ngIf="!showPassword">
+                                <span (click)="toggleEye()">
+                                    <i class="fa-solid fa-eye"></i>
+                                </span>
+                            </span>
+                            <span class="eyePosition" *ngIf="showPassword">
+                                <span (click)="toggleEye()">
+                                    <i class="fa-solid fa-eye-slash"></i>
+                                </span>
+                            </span>
                         </div>
 
                         <div class="forgotPassword" (click)="redirectTo('forgotPassword')">
@@ -30,7 +40,7 @@
                         </div>
 
                         <div class="mt-4">
-                            <button class="btn btn-success w-100" type="submit" (click)="login()">Sign In</button>
+                            <button class="btn btn-success w-100" type="submit" (click)="login()">Login</button>
                         </div>
 
                     </form>

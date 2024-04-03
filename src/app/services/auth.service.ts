@@ -25,7 +25,7 @@ export class AuthService {
     return this.http.get<LoginResponse>(this.baseUrl + `user/getUserById/${id}`);
   }
 
-  updateUser(data: any, id: any, token: any): Observable<any> {
+  updateUser(data: any, id: any, token: string): Observable<any> {
     const header = new HttpHeaders({
       'Authorization': `${token}`
     })

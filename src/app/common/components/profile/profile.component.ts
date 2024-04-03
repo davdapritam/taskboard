@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Auth } from 'src/app/services/auth';
 import { GetUser } from '../../interface/user';
 import { takeWhile } from 'rxjs';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-profile',
@@ -19,7 +20,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   isAlive: boolean = true;
   isEdit: boolean = false;
 
-  constructor(private auth: Auth, private fb: FormBuilder) {
+  constructor(private auth: Auth, private fb: FormBuilder, private sharedService: SharedService) {
 
   }
 
@@ -43,19 +44,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   fetchUser() {
-
     const isLoading$ = this.auth.getUserById()[0];
     const isLoaded$ = this.auth.getUserById()[1];
     const user$ = this.auth.getUserById()[2];
 
     isLoading$.pipe(takeWhile(() => this.isAlive)).subscribe((data: any) => {
       this.isLoading = data
-
     });
+
     isLoaded$.pipe(takeWhile(() => this.isAlive)).subscribe((data: any) => this.isLoaded = data);
     user$.pipe(takeWhile(() => this.isAlive)).subscribe((data: any) => {
       this.user = data
-      console.log("this.user", this.user)
       if (this.user.firstName == '') {
         this.getUserById();
       } else {
@@ -80,13 +79,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   getUserById() {
-
-    const user = localStorage.getItem('upmetricsCred')
-    if (user) {
-      const id = JSON.parse(user).id
-
-      this.auth.getUserById(id, true);
-    }
+    this.auth.getUserById(true);
   }
 
   imageUrl: string | ArrayBuffer | null = null;

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Auth } from 'src/app/services/auth';
 import { User } from '../../interface/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -16,7 +17,7 @@ export class SignupComponent implements OnInit {
   hasErrors: boolean = false;
   isAlive: boolean = true;
 
-  constructor(private fb: FormBuilder, private authService: Auth) {
+  constructor(private fb: FormBuilder, private authService: Auth, private router: Router) {
 
   }
 
@@ -40,5 +41,9 @@ export class SignupComponent implements OnInit {
     if (this.signupForm.valid) {
       this.authService.signup(data);
     }
+  }
+
+  redirectTo(path: string) {
+    this.router.navigate([path]);
   }
 }
